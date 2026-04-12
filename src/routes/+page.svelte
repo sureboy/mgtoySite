@@ -77,9 +77,14 @@ async function handleOffer(sign:signalingStruct) {
         // 监听 Data Channel，接收消息
         peerConnection.ondatachannel = (event) => {
             const receiveChannel = event.channel;
+            receiveChannel.onopen = (e)=>{
+                console.log("open",e)
+                dialogConfig.dialogEl?.close();
+
+            }
             receiveChannel.onmessage = (event) => {
                 console.log(`对方: ${event.data}`)
-                dialogConfig.dialogEl?.close();
+                //dialogConfig.dialogEl?.close();
                 //messages = [...messages, `对方: ${event.data}`];
             };
         };
