@@ -62,6 +62,7 @@ async function handleOffer(sign:signalingStruct) {
                 const link = document.createElement("a")
                 link.target="_blank"
                 link.textContent = "请求连接"
+                link.rel = "opener"
                 link.href=sign.backUrl+"#"+encodeURIComponent(ans)
                 document.getElementById("test")?.appendChild(link)
                 dialogConfig.dialogEl?.showModal()
