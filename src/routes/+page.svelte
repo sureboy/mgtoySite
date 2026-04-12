@@ -66,7 +66,7 @@ async function handleOffer(sign:signalingStruct) {
                 link.href=sign.backUrl+"#"+encodeURIComponent(ans)
                 document.getElementById("test")?.appendChild(link)
                 dialogConfig.dialogEl?.showModal()
-                link.click();
+                //link.click();
                 return
                 
                 
