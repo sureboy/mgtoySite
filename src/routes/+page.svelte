@@ -63,11 +63,9 @@ async function handleOffer(sign:signalingStruct) {
                 link.target="_blank"
                 link.textContent = "请求连接"
                 link.href=sign.backUrl+"#"+encodeURIComponent(ans)
-                //link.click();
-                //dialog.target
-                
                 document.getElementById("test")?.appendChild(link)
                 dialogConfig.dialogEl?.showModal()
+                link.click();
                 return
                 
                 
