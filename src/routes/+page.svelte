@@ -58,7 +58,7 @@ async function handleOffer(sign:signalingStruct) {
             }else{
                 //config.open = true;
                 const ans = JSON.stringify(msgAnswer)
-                console.log(ans)
+                //console.log(ans)
                 const link = document.createElement("a")
                 link.target="_blank"
                 link.textContent = "请求连接"
@@ -78,6 +78,7 @@ async function handleOffer(sign:signalingStruct) {
             const receiveChannel = event.channel;
             receiveChannel.onmessage = (event) => {
                 console.log(`对方: ${event.data}`)
+                dialogConfig.dialogEl?.close();
                 //messages = [...messages, `对方: ${event.data}`];
             };
         };
