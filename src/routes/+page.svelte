@@ -16,6 +16,7 @@ type  signalingStruct = {
   offer?:string,
   answer?:string,
   backUrl?:string,
+  id:number
 }
 onMount(() => { 
     //dialogConfig.dialogEl?.showModal()
@@ -50,7 +51,7 @@ async function handleOffer(sign:signalingStruct) {
         console.log('本地 Answer 已创建');
 
         // 通过信令服务器发送 Answer
-        const msgAnswer:signalingStruct = {   answer: peerConnection.localDescription?.sdp,ICEList:[] }
+        const msgAnswer:signalingStruct = {   answer: peerConnection.localDescription?.sdp,ICEList:[] ,id:sign.id}
         peerConnection.onicecandidate = (event) => {
             if (event.candidate) {
                 msgAnswer.ICEList.push (event.candidate);
