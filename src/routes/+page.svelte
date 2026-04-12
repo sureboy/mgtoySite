@@ -1,14 +1,32 @@
 <script lang="ts">
 //import {jsonToHash,hashToJson} from "$lib/hashTOJson"
+import Dialog from '$lib/components/Dialog.svelte'
+import type {dialogStruct} from '$lib/components/Dialog.svelte'
 import { onMount } from 'svelte';
+//let dialog:any
+const dialogConfig:dialogStruct = {
+    //open:true,
+    //dialogEl:undefined,
+    title:"SolidJScad",
+    closeOnBackdrop:false,
+    closeOnEsc:false,
+} ;
 type  signalingStruct = {
   ICEList:RTCIceCandidateInit[],
   offer?:string,
   answer?:string,
+  backUrl?:string,
 }
-onMount(() => {
-    if (window.location.hash){
-        handleOffer(JSON.parse(decodeURIComponent(window.location.hash.slice(1))));
+onMount(() => { 
+    //dialogConfig.dialogEl?.showModal()
+    //return;
+    if (window.location.hash   ){
+        try{
+            handleOffer(JSON.parse(decodeURIComponent(window.location.hash.slice(1))));
+        }catch(e){
+            console.error(e)
+        } 
+        location.hash = '';       
     }
     
 });
@@ -38,12 +56,21 @@ async function handleOffer(sign:signalingStruct) {
                 msgAnswer.ICEList.push (event.candidate);
                 console.log('ICE Candidate 已发送');
             }else{
+                //config.open = true;
                 const ans = JSON.stringify(msgAnswer)
                 console.log(ans)
                 const link = document.createElement("a")
                 link.target="_blank"
-                link.href="http://localhost:3000/test.html#"+encodeURIComponent(ans)
-                link.click();
+                link.textContent = "请求连接"
+                link.href=sign.backUrl+"#"+encodeURIComponent(ans)
+                //link.click();
+                //dialog.target
+                
+                document.getElementById("test")?.appendChild(link)
+                dialogConfig.dialogEl?.showModal()
+                return
+                
+                
                 //encodeURIComponent(JSON.stringify(msgList))
             }
         };
@@ -63,3 +90,16 @@ async function handleOffer(sign:signalingStruct) {
 
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<Dialog {dialogConfig}   >
+    <!-- 自定义内容（带超链接） -->
+     
+     <p id="test"><button onclick={()=>{
+        window.location.href="/#new"
+        window.location.reload()
+    }}  >从这里开始</button></p>
+    <p>参数化 3D 建模 <a href="/docs/" aria-current="page"  rel="noopener noreferrer">文档</a></p> 
+    <p><a href="/home/" aria-current="page"  rel="noopener noreferrer">Home</a></p>
+    <a href="/docs/UserAgreement" aria-current="page" rel="noopener noreferrer">用户协议</a>
+    <a href="/docs/PrivacyPolicy" aria-current="page"  rel="noopener noreferrer">隐私政策</a> 
+    
+</Dialog>
